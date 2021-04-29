@@ -1,0 +1,125 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Ignite User Manager",
+    "description": "Ignite Swagger Challenge API",
+    "version": "1.0.0",
+    "contact": {
+      "email": "wguerra@globo.com"
+    }
+  },
+  "paths": {
+    "/users": {
+      "get": {
+        "tags": ["Admin Only"],
+        "summary": "List all users",
+        "description": "List all user from the database",
+        "parameters": [
+          {
+            "name": "user_id",
+            "in": "header",
+            "description": "id of the admin user requesting the data",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok"
+          },
+          "400": {
+            "description": "Invalid user id"
+          }
+        }
+      },
+      "post": {
+        "tags": ["User"],
+        "summary": "New user",
+        "description": "Adds a new user to the database",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  },
+                  "email": {
+                    "type": "string"
+                  }
+                },
+                "example": {
+                  "name": "John Doe",
+                  "email": "johndoe@example.com"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Created"
+          }
+        }
+      }
+    },
+    "/users/{user_id}": {
+      "get": {
+        "tags": ["User"],
+        "summary": "Retrieve user",
+        "description": "Retrieves user data from the database",
+        "parameters": [
+          {
+            "name": "user_id",
+            "in": "path",
+            "description": "id of the user to be retrieved",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok"
+          },
+          "404": {
+            "description": "User not found"
+          }
+        }
+      }
+    },
+    "/users/{user_id}/admin": {
+      "patch": {
+        "tags": ["User"],
+        "summary": "Set user as admin",
+        "description": "Updates user as admin",
+        "parameters": [
+          {
+            "name": "user_id",
+            "in": "path",
+            "description": "id of the user to be set as admin",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Ok"
+          },
+          "404": {
+            "description": "User not found"
+          }
+        }
+      }
+    }
+  }
+}
